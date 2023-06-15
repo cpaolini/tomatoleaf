@@ -1,0 +1,6 @@
+0 Healthy
+1 BacterialSpot
+2 LateBlight
+3 EarlyBlight
+4 YellowLeafCurl
+5 SeptoriaSpot
