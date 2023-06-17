@@ -11,8 +11,13 @@ The tomato leaf disease object detection model is the pre-trained deep learning 
 
 In this model we used Coral Dev Board with 4GB ram, as it is ARM64 device it is no longer supported to compile models on device and it requires to be compiled either on PC or Cloud. 
 Compiler version used for model was 16.0 and Edge TPU runtime 14 as it is the latest update as of writing this (June, 2023). 
+
 In order to get started with the Dev Board and understand how to push files to mendel linux OS running on the board (including how to set up mendel itself) please refer to the following link:  [Get Started With Dev Board](https://coral.ai/docs/dev-board/get-started/) "Intro to Coral Dev Board")
-. Generally there are several ways of accesing and downloading files: through MDT (Mendel Development Tool), SSH (Secure Shell Protocol, usually only one pc is allowed however it is possible to run openssh server and set up ftp communication as well by changing appropriate config values inside /etc/ssh/sshd_config) and via USB or internet. In order to install requirements on the board and be assured that it is capable of running please follow the instructions found [here, try PyCoral](https://coral.ai/docs/dev-board/get-started/#run-pycoral, "PyCoral"), particularly 
+
+Generally there are several ways of accesing and downloading files: through MDT (Mendel Development Tool), SSH (Secure Shell Protocol, usually only one pc is allowed however it is possible to run openssh server and set up ftp communication as well by changing appropriate config values inside /etc/ssh/sshd_config) and via USB or internet. 
+
+In order to install requirements on the board and be assured that it is capable of running please follow the instructions found [here, try PyCoral](https://coral.ai/docs/dev-board/get-started/#run-pycoral, "PyCoral"), particularly:
+
 mkdir coral && cd coral
 git clone https://github.com/google-coral/pycoral.git
 cd pycoral
@@ -21,13 +26,20 @@ python3 examples/classify_image.py \
 --model test_data/mobilenet_v2_1.0_224_inat_bird_quant_edgetpu.tflite \
 --labels test_data/inat_bird_labels.txt \
 --input test_data/parrot.jpg 
+
 The following example is classification model and is differed from detection model as detection model includes boundig boxes of the object and respectively needs to be trained with bounding box data along with the labels, as well as different parameters and configuration. It is worth to mention that SSD Mobilenet is an architecture which can be used for both. 
+
 To run the tomato leaf disease detection model download the following [tflite model] (https://github.com/cpaolini/tomatoleaf/blob/main/output_tflite_graph_edgetpu.tflite "Tomato Disease Detection TFlite Model") and also the [labels](https://github.com/cpaolini/tomatoleaf/blob/main/labels2.txt "disease labels")
+
 In order to detect image download or copy source code of [detect_image.py](https://github.com/cpaolini/tomatoleaf/blob/main/detect_image.py)
+
 Example of usage in the terminal of Mendel: 
 python3 detect_image.py --model output_tflite_graph.tflite --labels labels2.txt --input Tomato_Late_blight-43.jpg --output lateblightbounded2.jpg 
+
 Iff you want to run inference on multiple images located in one folder use the script [detectmany.py](https://github.com/cpaolini/tomatoleaf/blob/main/detectmany.py)
-Example of usage "inpfolder" is input folder containing pictures to run the inference on and inpout is the folder which will contain output images with bounding boxes: 
+
+Example of usage of uppermentioned script - "inpfolder" is input folder containing pictures to run the inference on and inpout is the folder which will contain output images with bounding boxes: 
+
 python3 detectmany.py --model output_tflite_graph_edgetpu.tflite --labels labels2.txt --input inpfolder/ --output inpout/ 
 
 In order to use live inferecne model and stream and the same time you can use the following command: 
@@ -38,19 +50,25 @@ edgetpu_detect --model output_tflite_graph_edgetpu.tflite --labels labels2.txt -
 ## File Description 
 
 5D1H.csv - all labels and bounding box files for the thousands of disease (6 different classes of BacterialSpot, EarlyBlight, Healthy, LateBlight, SeptoriaSpot, YellowLeafCUrl) and healthy leaf labels in one csv files (CSV file was made manually after joining and filtering VGG anotator files)
+
 generate_tfrecord_csv.py - Python Script to generate record files needed for training the model from the csv file
 Syntax: python ../generate_tfrecord.py --csv_input=data/train_labels.csv  --output_path=train.record 
+
 method_david_change_csv.py - Python script specifically made for csv files like 5D1H in order to make it easier to create changed csv file involving specific pictures in the folder and also changing the original locations indicated in 5D1H file, which of course will be different for each different instance and each different computer/server/cloud 
 Syntax: python method_david_change_csv.py "path of the csv file like 51DH.csv" "path of the new csv file which should be generated" "string to replace in csv file for new locations of files in generated new csv file" "folder location where those images are to include only those images and exclude all the other which are in csv file like 51DH.csv" "file type like .jpg" 
+
 data200each.zip - images particurarly used for training the object detection model for leaf disease recognition 
 data200eachtest.zip - same but images used for testing 
 data200train.csv / data200test.csv - Appropriate csv files 
 data200train.record / data200test.record - tensorflow record files which can be used at any platform and model as long as it is capable train tensorflow record files
+
 output_tflite_graph.tflite - tflite generated after quantization (it still can be used for the model, but it won't be as accurate and as fast as edgetpu one) 
+
 output_tflite_graph_edgetpu.tflite - tflite model which can successfully run on edge tpu
 
 
 events.out.tfevents.1686813032.DJ3060 is the evaluation events file which can be opened with tensorboard (training events file was too large to upload in case of need contact me to get it) 
+
 tflite_graph.pb (graph file associated with tomato disease trained model, pbtxt file was large so contact me to get it as well) 
 
 # Training Tutorial Inside The Jupyter Notebook without completely depending on Docker or Colab:
