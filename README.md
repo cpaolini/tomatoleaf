@@ -11,8 +11,8 @@ The tomato leaf disease object detection model is the pre-trained deep learning 
 
 In this model we used Coral Dev Board with 4GB ram, as it is ARM64 device it is no longer supported to compile models on device and it requires to be compiled either on PC or Cloud. 
 Compiler version used for model was 16.0 and Edge TPU runtime 14 as it is the latest update as of writing this (June, 2023). 
-In order to get started with the Dev Board and understand how to push files to mendel linux OS running on the board (including how to set up mendel itself) please refer to the following link:  [Get Started With Dev Board](https://coral.ai/docs/dev-board/get-started/)"Intro to Coral Dev Board")
-. Generally there are several ways of accesing and downloading files: through MDT (Mendel Development Tool), SSH (Secure Shell Protocol, usually only one pc is allowed however it is possible to run openssh server and set up ftp communication as well by changing appropriate config values inside /etc/ssh/sshd_config) and via USB or internet. In order to install requirements on the board and be assured that it is capable of running please follow the instructions found [here, try PyCoral] (https://coral.ai/docs/dev-board/get-started/#run-pycoral, "PyCoral"), particularly 
+In order to get started with the Dev Board and understand how to push files to mendel linux OS running on the board (including how to set up mendel itself) please refer to the following link:  [Get Started With Dev Board](https://coral.ai/docs/dev-board/get-started/) "Intro to Coral Dev Board")
+. Generally there are several ways of accesing and downloading files: through MDT (Mendel Development Tool), SSH (Secure Shell Protocol, usually only one pc is allowed however it is possible to run openssh server and set up ftp communication as well by changing appropriate config values inside /etc/ssh/sshd_config) and via USB or internet. In order to install requirements on the board and be assured that it is capable of running please follow the instructions found [here, try PyCoral](https://coral.ai/docs/dev-board/get-started/#run-pycoral, "PyCoral"), particularly 
 mkdir coral && cd coral
 git clone https://github.com/google-coral/pycoral.git
 cd pycoral
@@ -22,11 +22,11 @@ python3 examples/classify_image.py \
 --labels test_data/inat_bird_labels.txt \
 --input test_data/parrot.jpg 
 The following example is classification model and is differed from detection model as detection model includes boundig boxes of the object and respectively needs to be trained with bounding box data along with the labels, as well as different parameters and configuration. It is worth to mention that SSD Mobilenet is an architecture which can be used for both. 
-To run the tomato leaf disease detection model download the following [tflite model] (https://github.com/cpaolini/tomatoleaf/blob/main/output_tflite_graph_edgetpu.tflite "Tomato Disease Detection TFlite Model") and also the [labels] (https://github.com/cpaolini/tomatoleaf/blob/main/labels2.txt "disease labels")
-In order to detect image download or copy source code of [detect_image.py] (https://github.com/cpaolini/tomatoleaf/blob/main/detect_image.py)
+To run the tomato leaf disease detection model download the following [tflite model] (https://github.com/cpaolini/tomatoleaf/blob/main/output_tflite_graph_edgetpu.tflite "Tomato Disease Detection TFlite Model") and also the [labels](https://github.com/cpaolini/tomatoleaf/blob/main/labels2.txt "disease labels")
+In order to detect image download or copy source code of [detect_image.py](https://github.com/cpaolini/tomatoleaf/blob/main/detect_image.py)
 Example of usage in the terminal of Mendel: 
 python3 detect_image.py --model output_tflite_graph.tflite --labels labels2.txt --input Tomato_Late_blight-43.jpg --output lateblightbounded2.jpg 
-Iff you want to run inference on multiple images located in one folder use the script [detectmany.py] (https://github.com/cpaolini/tomatoleaf/blob/main/detectmany.py)
+Iff you want to run inference on multiple images located in one folder use the script [detectmany.py](https://github.com/cpaolini/tomatoleaf/blob/main/detectmany.py)
 Example of usage "inpfolder" is input folder containing pictures to run the inference on and inpout is the folder which will contain output images with bounding boxes: 
 python3 detectmany.py --model output_tflite_graph_edgetpu.tflite --labels labels2.txt --input inpfolder/ --output inpout/ 
 
