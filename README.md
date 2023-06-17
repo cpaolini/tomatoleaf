@@ -53,7 +53,7 @@ output_tflite_graph_edgetpu.tflite - tflite model which can successfully run on 
 events.out.tfevents.1686813032.DJ3060 is the evaluation events file which can be opened with tensorboard (training events file was too large to upload in case of need contact me to get it) 
 tflite_graph.pb (graph file associated with tomato disease trained model, pbtxt file was large so contact me to get it as well) 
 
-#Training Tutorial Inside The Jupyter Notebook without completely depending on Docker or Colab:
+# Training Tutorial Inside The Jupyter Notebook without completely depending on Docker or Colab:
 
 Uninstalling current tf and installing tf1.15 with gpu support (sometimes it is problem since Google stopped supporting those versions, so if you do not use docker I strongly reccomend to first downgrade python to 3.7 then instaling tf 1.15 either via pip/pip3 or conda environment specifically made for this)  
  #! pip uninstall tensorflow -y
